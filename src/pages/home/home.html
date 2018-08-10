@@ -1,17 +1,41 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>Lazarte</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="upload()">
+        <ion-icon name="cloud-upload"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+
+<ion-content>
+  <ion-card *ngIf="obras">
+    <ion-card-header>
+      Lista de Obras
+    </ion-card-header>
+  </ion-card>
+
+  <ion-list *ngIf="obras">
+    <button ion-item *ngFor="let item of datosObras" (click)="goToMyPage(item.numero)">
+      <ion-icon name="ios-briefcase-outline" item-start></ion-icon>
+      {{item.denobr}}
+    </button>
+
+  </ion-list>
+
+  <ion-list *ngIf="!obras">
+    <ion-card>
+      <ion-card-header>
+        "No se han encontrado Obras cargadas, por favor actualice la aplicación"
+      </ion-card-header>
+    </ion-card>
+
+    <button ion-button block (click)="actualizar()">
+      <ion-icon name="md-refresh" item-start></ion-icon> Actualizar
+    </button>
+
+  </ion-list>
+
 </ion-content>

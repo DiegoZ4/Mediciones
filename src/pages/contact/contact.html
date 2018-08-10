@@ -1,17 +1,25 @@
 <ion-header>
-  <ion-navbar>
+
+  <ion-navbar hideBackButton color=primary>
     <ion-title>
-      Contact
+      {{nombre}}
     </ion-title>
   </ion-navbar>
+
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-card-header>
+      Lista de Clientes
+    </ion-card-header>
+  </ion-card>
+
   <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
-    </ion-item>
+    <button ion-item *ngFor="let item of datosPagos" (click)="goToMyPage(item.id)">
+      <ion-icon name="ios-briefcase-outline" item-start></ion-icon>
+      {{item.razon}}
+    </button>
+
   </ion-list>
 </ion-content>

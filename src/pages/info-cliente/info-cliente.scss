@@ -1,0 +1,21 @@
+page-info-cliente {
+
+}
+
+page-info-cliente  .header .col {
+    background-color:lightgrey;
+}
+
+page-info-cliente  .col {
+    border: solid 1px grey;
+    border-bottom-style: none;
+    border-right-style: none;
+}
+
+page-info-cliente  .col:last-child {
+    border-right: solid 1px grey;
+}
+
+page-info-cliente  .row:last-child .col {
+    border-bottom: solid 1px grey;
+}

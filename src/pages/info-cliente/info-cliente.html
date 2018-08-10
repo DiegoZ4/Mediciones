@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-navbar color=primary>
+    <ion-title>
+      Obra: {{ datosObra.denobr}}
+    </ion-title>
+    <!-- <ion-buttons end>
+      <button (click)="openModal()">
+        <ion-icon name="cloud-upload"></ion-icon>
+      </button>
+    </ion-buttons> -->
+    <ion-buttons end>
+      <button ion-button icon-only (click)="upload()">
+        <ion-icon name="cloud-upload"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar style="background:#e4e4e4; font-size:11px">
+    <ion-title>Tarea: {{ datosTarea.codtar }} -- {{ datosTarea.dentar }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+
+
+  <ion-card *ngIf="hayMediciones">
+    <ion-card-header>
+      Mediciones
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let item of mediciones">{{item.codtar}} -- {{item.tipmed}}</ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="!hayMediciones">
+    <ion-card-header>
+      Mediciones
+    </ion-card-header>
+    <ion-card-content>
+      Aún no se han generado mediciones
+    </ion-card-content>
+  </ion-card>
+
+  <!-- <pre>{{ medicionForm.value | json }}</pre> -->
+  <form [formGroup]="medicionForm">
+
+    <ion-list>
+
+      <ion-item>
+        <ion-label stacked>Fecha</ion-label>
+        <ion-input formControlName="fecha" type="date"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Hora Inicio</ion-label>
+        <ion-input formControlName="horini" type="time"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Hora Fin</ion-label>
+        <ion-input formControlName="horfin" type="time"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Cantidad</ion-label>
+        <ion-input formControlName="cantidad" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Tipo de medición</ion-label>
+        <ion-input formControlName="tipmed" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Canofi</ion-label>
+        <ion-input formControlName="canofi" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Canayu</ion-label>
+        <ion-input formControlName="canayu" type="text"></ion-input>
+      </ion-item>
+
+      <button ion-button block icon-start (click)="saveMedicion()">
+        Cargar  <ion-icon style="margin-left:5px" name="md-arrow-round-forward"></ion-icon>
+      </button>
+
+    </ion-list>
+
+  </form>
+
+
+</ion-content>

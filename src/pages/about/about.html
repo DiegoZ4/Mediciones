@@ -1,11 +1,28 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color=primary>
     <ion-title>
-      About
+      Obra: {{ datosObra.denobr}}
     </ion-title>
   </ion-navbar>
+  <ion-buttons end>
+    <button ion-button icon-only (click)="upload()">
+      <ion-icon name="cloud-upload"></ion-icon>
+    </button>
+  </ion-buttons>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      Lista de Tareas
+    </ion-card-header>
+  </ion-card>
 
+  <ion-list>
+    <div ion-item *ngFor="let item of datosTareas" (click)="goToMyPage(item.codtar, item.numero)">
+      <ion-icon name="ios-briefcase-outline" item-start></ion-icon>
+      {{item.codtar}} - {{item.dentar}}
+    </div>
+
+  </ion-list>
 </ion-content>
