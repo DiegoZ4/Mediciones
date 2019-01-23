@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import {FormGroup, FormControl } from '@angular/forms';
+import {FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { HomePage } from '../home/home';
+import { AlertController } from 'ionic-angular';
+
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ServicesLoginProvider } from '../../providers/services-login/services-login';
 
 /**
@@ -34,7 +37,8 @@ export class InfoClientePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private _login:ServicesLoginProvider
+    private _login:ServicesLoginProvider,
+    public alertCtrl: AlertController
   ) {
 
     console.log( this.navParams.get('tarea'));
@@ -55,6 +59,7 @@ export class InfoClientePage {
     for(let tarea of tareasStorage){
         if(tarea.codtar == this.tarea){
           this.datosTarea = tarea;
+          console.log(this.datosTarea)
         }
     }
 
@@ -84,9 +89,21 @@ export class InfoClientePage {
           cantidad: new FormControl(),
           tipmed: new FormControl(),
           canofi: new FormControl(),
-          canayu: new FormControl()
+          canayu: new FormControl(),
+          canoesp: new FormControl(),
+          canhseq: new FormControl()
 
     });
+
+    this.medicionForm.controls['horini'].setValidators([
+        Validators.required,
+        this.validarHora.bind(this.medicionForm.controls)
+    ])
+
+    this.medicionForm.controls['horfin'].setValidators([
+        Validators.required,
+        this.validarHora.bind(this.medicionForm.controls)
+    ])
   }
 
   ionViewDidLoad() {
@@ -99,14 +116,84 @@ export class InfoClientePage {
     // this.medicionForm.controls['codtar'].setValue(this.tarea);
 
     //OBtengo primero las mediciones del dataStorage
-    this.medicionesPre = JSON.parse(localStorage.getItem("mediciones"));
-
-    console.log(this.medicionesPre)
+    // this.medicionesPre = JSON.parse(localStorage.getItem("mediciones"));
+    //
+    // console.log(this.medicionesPre)
     //Agrego la nueva medicicion
-    this.medicionesPre.push(this.medicionForm.value);
-    console.log(this.medicionesPre)
+
+    this.hayMediciones = true;
+
+    this.mediciones.push(this.medicionForm.value);
+    console.log(this.mediciones)
     //Se vuelve a guardar en el storage
-    localStorage.setItem("mediciones", JSON.stringify(this.medicionesPre))
+    localStorage.setItem("mediciones", JSON.stringify(this.mediciones))
+
+    this.medicionForm.reset();
+
+  }
+
+  upload(){
+    let data = [];
+    data.push(JSON.parse(localStorage.getItem('mediciones')));
+    console.log(data)
+    this._login.upload(data)
+        .subscribe( (resp:any) => {
+          console.log(resp);
+          if(resp==1){
+            this.mediciones = [];//del
+            this.hayMediciones = true;
+            localStorage.removeItem('mediciones');
+            localStorage.removeItem('obras');
+            localStorage.removeItem('tareas');
+            //this.datosTareas = [];
+            this.datosObra = [];
+            this.navCtrl.push(HomePage);
+            this.showAlert();
+          }else{
+            console.log("error");
+            this.showAlert2(resp);
+          }
+        })
+  }
+
+  showAlert() {
+    const alert = this.alertCtrl.create({
+      title: 'Actualización correcta',
+      subTitle: 'Las mediciones se han Subido correctamente a la base de datos!',
+      buttons: ['Continuar']
+    });
+    alert.present();
+  }
+
+  showAlert2(error) {
+    console.log("error");
+    const alert = this.alertCtrl.create({
+      title: 'Error en Actualización',
+      subTitle: error,
+      buttons: ['Continuar']
+    });
+    alert.present();
+  }
+
+
+
+  validarHora( control:FormControl):{ [s:string]:boolean } {
+    // console.log(this);
+
+    let time1 = this['horini'].value;
+    let time2 = this['horfin'].value;
+    //
+    console.log(time1);
+    console.log(time2);
+
+    if(time1 > time2) {
+       console.log("el correo es mas grande");
+      return{
+        vacio:true
+      }
+    }
+
+    return null
   }
 
 }

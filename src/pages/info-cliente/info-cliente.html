@@ -47,6 +47,9 @@
   <form [formGroup]="medicionForm">
 
     <ion-list>
+      <ion-item>
+        <ion-label stacked style="font-size:12pt">Unidad: {{ datosTarea.unidad }}</ion-label>
+      </ion-item>
 
       <ion-item>
         <ion-label stacked>Fecha</ion-label>
@@ -55,32 +58,55 @@
 
       <ion-item>
         <ion-label stacked>Hora Inicio</ion-label>
-        <ion-input formControlName="horini" type="time"></ion-input>
+        <ion-input formControlName="horini" type="time"
+                   (change)="medicionForm.controls['horfin'].updateValueAndValidity()"></ion-input>
       </ion-item>
+
+      <div *ngIf="medicionForm.get('horini').errors?.vacio"
+        style="color:red; padding:20px">No es un rango valido</div>
 
       <ion-item>
         <ion-label stacked>Hora Fin</ion-label>
-        <ion-input formControlName="horfin" type="time"></ion-input>
+        <ion-input formControlName="horfin" type="time"
+                   (change)="medicionForm.controls['horini'].updateValueAndValidity()"></ion-input>
       </ion-item>
+
+      <div *ngIf="medicionForm.get('horfin').errors?.vacio"
+         style="color:red; padding:20px">No es un rango valido</div>
 
       <ion-item>
         <ion-label stacked>Cantidad</ion-label>
-        <ion-input formControlName="cantidad" type="text"></ion-input>
+        <ion-input formControlName="cantidad" type="number"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label stacked>Tipo de medición</ion-label>
-        <ion-input formControlName="tipmed" type="text"></ion-input>
+
+        <ion-select formControlName="tipmed">
+          <ion-option value="Avance">Avance</ion-option>
+          <ion-option value="Parada">Parada</ion-option>
+          <ion-option value="Fin">Fin</ion-option>
+        </ion-select>
       </ion-item>
 
       <ion-item>
-        <ion-label stacked>Canofi</ion-label>
-        <ion-input formControlName="canofi" type="text"></ion-input>
+        <ion-label stacked>Cant. Oficiales</ion-label>
+        <ion-input formControlName="canofi" type="number"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label stacked>Canayu</ion-label>
-        <ion-input formControlName="canayu" type="text"></ion-input>
+        <ion-label stacked>Cant. Ayudantes</ion-label>
+        <ion-input formControlName="canayu" type="number"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Cant. Hs. de Equipo - Maquina</ion-label>
+        <ion-input formControlName="canoesp" type="number"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Cant. Hs. Obrero Especializado</ion-label>
+        <ion-input formControlName="canhseq" type="number"></ion-input>
       </ion-item>
 
       <button ion-button block icon-start (click)="saveMedicion()">

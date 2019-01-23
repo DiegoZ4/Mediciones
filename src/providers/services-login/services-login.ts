@@ -1,5 +1,5 @@
 //import { HttpClient } from '@angular/common/http';
-import { HttpClient , HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 /*
   Generated class for the ServicesLoginProvider provider.
@@ -15,45 +15,19 @@ export class ServicesLoginProvider {
   apiUrlObras = 'http://nubelaz.com.ar.elserver.com/mediciones/obras.php';
   apiUrlMediciones = 'http://nubelaz.com.ar.elserver.com/mediciones/mediciones.php';
   apiUrlMedicion = 'http://nubelaz.com.ar.elserver.com/mediciones/medicion.php';
-  apiUrlTareas = 'http://nubelaz.com.ar.elserver.com/mediciones/tareas.php';
-  apiUrlUpload = 'http://nubelaz.com.ar.elserver.com/mediciones/upload.php';
+  apiUrlTareas = 'http://nubelaz.com.ar.elserver.com/mediciones/tareas2.php';
+  apiUrlUpload = 'http://nubelaz.com.ar.elserver.com/mediciones/upload7.php';
 
 
   datosObras = [];
   datosMediciones = [];
   datosTareas = [];
 
+
   constructor(public http: HttpClient) {
     console.log('Hello ServicesLoginProvider Provider');
 
-    if(!localStorage.getItem('obras')) {
-      this.getObras()
-          .subscribe((resp:any)=>{
-            this.datosObras = resp;
-            console.log(this.datosObras);
 
-            this.getMediciones()
-                .subscribe((resp:any)=>{
-                  this.datosMediciones = resp;
-
-                  this.getTareas()
-                      .subscribe((resp:any)=>{
-                        this.datosTareas = resp;
-                        console.log(this.datosTareas);
-
-                        localStorage.setItem('obras', JSON.stringify(this.datosObras));
-                        localStorage.setItem('mediciones', JSON.stringify(this.datosMediciones));
-                        localStorage.setItem('tareas', JSON.stringify(this.datosTareas));
-                      })
-
-                })
-          })
-    }else{
-      console.log("ya hay datos cargados");
-      this.datosObras = JSON.parse(localStorage.getItem("obras"));
-      this.datosMediciones = JSON.parse(localStorage.getItem("mediciones"));
-      this.datosTareas = JSON.parse(localStorage.getItem("tareas"));
-    }
 
   }
 

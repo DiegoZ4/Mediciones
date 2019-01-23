@@ -19,8 +19,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpClientModule } from '@angular/common/http';
 
 //Base de datosObra
-import { SQLite } from '@ionic-native/sqlite';
-
+// import { SQLite } from '@ionic-native/sqlite';
+import { IonicStorageModule } from '@ionic/storage';
 
 //Services
 import { ServicesLoginProvider } from '../providers/services-login/services-login';
@@ -38,6 +38,7 @@ import { DatabaseService } from '../providers/services-login/database-service';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -53,8 +54,7 @@ import { DatabaseService } from '../providers/services-login/database-service';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ServicesLoginProvider,
     DatabaseService,
-    {provide: LOCALE_ID, useValue: 'es-ES' },
-    SQLite
+    {provide: LOCALE_ID, useValue: 'es-ES' }
   ]
 })
 export class AppModule {}

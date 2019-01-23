@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
 
+import { AlertController } from 'ionic-angular';
+
+import { HomePage } from '../home/home';
 import { ContactPage } from '../contact/contact';
 
 import { ServicesLoginProvider } from '../../providers/services-login/services-login';
@@ -25,7 +28,9 @@ export class AboutPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public _login:ServicesLoginProvider) {
+    public _login:ServicesLoginProvider,
+    public alertCtrl: AlertController
+  ) {
 
     this.id = this.navParams.get('id');
     console.log(this.id);
@@ -57,6 +62,47 @@ export class AboutPage {
       'tarea': tarea,
       'obra': obra
     });
+  }
+
+  upload(){
+    let data = [];
+    data.push(JSON.parse(localStorage.getItem('mediciones')));
+    console.log(data)
+    this._login.upload(data)
+        .subscribe( (resp:any) => {
+          console.log(resp);
+          if(resp==1){
+            localStorage.removeItem('mediciones');
+            localStorage.removeItem('obras');
+            localStorage.removeItem('tareas');
+            this.datosTareas = [];
+            this.datosObra = [];
+            this.navCtrl.push(HomePage);
+            this.showAlert();
+          }else{
+            console.log("error");
+            this.showAlert2(resp);
+          }
+        })
+  }
+
+  showAlert() {
+    const alert = this.alertCtrl.create({
+      title: 'Actualización correcta',
+      subTitle: 'Las mediciones se han Subido correctamente a la base de datos!',
+      buttons: ['Continuar']
+    });
+    alert.present();
+  }
+
+  showAlert2(error) {
+    console.log("error");
+    const alert = this.alertCtrl.create({
+      title: 'Error en Actualización',
+      subTitle: error,
+      buttons: ['Continuar']
+    });
+    alert.present();
   }
 
 }
