@@ -130,6 +130,9 @@ export class InfoClientePage {
 
     this.medicionForm.reset();
 
+    this.medicionForm.controls['numero'].setValue(this.obra);
+    this.medicionForm.controls['codtar'].setValue(this.tarea);
+
   }
 
   upload(){
